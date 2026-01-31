@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stopwatch App</title>
+
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+           body {
+            height: 100vh;
+            background: linear-gradient(135deg, #312e81, #1e1b4b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+           .container {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 40px 50px;
+            border-radius: 18px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            width: 340px;
+        }
+
+           h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+         .time {
+            font-size: 42px;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+           .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+         button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+           .start {
+            background: #22c55e;
+            color: #022c22;
+        }
+
+        .pause {
+            background: #facc15;
+            color: #422006;
+        }
+
+         .reset {
+            background: #ef4444;
+            color: #450a0a;
+        }
+
+           button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+         ul {
+            list-style: none;
+            margin-top: 25px;
+            max-height: 140px;
+            overflow-y: auto;
+        }
+
+          ul li {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #e5e7eb;
+        }
+      </style>
+</head>
+
+<body>
+
+     <div class="container">
+         <h1>STOPWATCH</h1>
+        <div class="time" id="display">00:00:00</div>
+
+        <div class="buttons">
+            <button class="start" onclick="start()">Start</button>
+            <button class="pause" onclick="lap()">Lap</button>
+            <button class="reset" onclick="reset()">Reset</button>
+         </div>
+
+        <ul id="laps"></ul>
+     </div>
+ 
+    <script>
+        let timer;
+        let seconds = 0;
+        let running = false;
+
+        function update() {
+            let hrs = Math.floor(seconds / 3600);
+            let mins = Math.floor((seconds % 3600) / 60);
+            let secs = seconds % 60;
+
+            document.getElementById("display").textContent =
+                `${String(hrs).padStart(2, "0")}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+
+            seconds++;
+        }
+
+        function start() {
+            if (!running) {
+                running = true;
+                timer = setInterval(update, 1000);
+            }
+        }
+
+          function reset() {
+            clearInterval(timer);
+            running = false;
+            seconds = 0;
+            document.getElementById("display").textContent = "00:00:00";
+            document.getElementById("laps").innerHTML = "";
+        }
+
+          function lap() {
+            if (running) {
+                const li = document.createElement("li");
+                li.textContent = document.getElementById("display").textContent;
+                document.getElementById("laps").appendChild(li);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
